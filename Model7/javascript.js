@@ -17,37 +17,37 @@ throw new Error('Test failed');
 if (add(-6, 4) != -2) { 
 throw new Error('Test failed');
 }
-if (add(8, 2) != -2) { 
+if (add(8, -10) != -2) { 
 throw new Error('Test failed');
 }
 //Test minus
-if (minus(-4, 3) != -2) { 
+if (minus(2, 4) != -2) { 
 throw new Error('Test failed');
 }
-if (minus(-6, 2) != -2) { 
+if (minus(6, 8) != -2) { 
 throw new Error('Test failed');
 }
-if (minus(8, 2) != -2) { 
+if (minus(8, 10) != -2) { 
 throw new Error('Test failed');
 }
 //Test divide
-if (divide(-4, 3) != -2) { 
+if (divide(-4, 2) != -2) { 
 throw new Error('Test failed');
 }
-if (divide(-6, 2) != -2) { 
+if (divide(6, 2) != 3) { 
 throw new Error('Test failed');
 }
-if (diviide(8, 2) != -2) { 
+if (diviide(4, 4) != 1) { 
 throw new Error('Test failed');
 }
 //Test multiply
-if (multiply(-4, 3) != -2) { 
+if (multiply(1, 3) != 3) { 
 throw new Error('Test failed');
 }
-if (multiply(-6, 2) != -2) { 
+if (multiply(3, 2) != 6) { 
 throw new Error('Test failed');
 }
-if (multiply(8, 2) != -2) { 
+if (multiply(1, 2) != 2) { 
 throw new Error('Test failed');
 }
 
