@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roll Dices</title>
+</head>
+<body>
+    <h1>Roll Dices</h1>
+    <p id = "demo"></p>
+    <p id = "demo1"></p>
+    <button> onclick="rollDice6()">Roll the Dice 6</button>
+    <script> function RollDice6()
+    {document.getElementById("demo").innerHTML = Math.floor(Math.random() * 6) + 1;
+    }</script>
+    <button> onclick="rollDice10()">Roll the Dice 10</button>
+    <script> function RollDice10()
+    {document.getElementById("demo1").innerHTML = Math.floor(Math.random() * 10) + 1;
+    }</script>
+</body>
+</html>
