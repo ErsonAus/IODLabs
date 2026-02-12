@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playwrite+CU+Guides&display=swap" rel="stylesheet">
+</head>
+<style>
+    .class {
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid black;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+    .style-me1 {
+        color:red;}
+    #style-me2 {
+        color:blue;
+    }
+.my-descendants-are-styled {
+  background-color: red;
+}
+div > p {
+  background-color: lightgreen;
+  font-size: 12px;
+}
+.my-children-are-styled {
+  background-color: lightgreen;
+  font-size: 12px;
+}
+.box {
+  background-color: blue;
+  margin:4px;
+  padding:20px;
+  margin-top:1;
+  width:100px;
+  height:100px;
+  border:10px solid rgb(197, 21, 21);
+  box-sizing: border-box;
+  overflow: scroll;
+  outline-style: dotted;
+  border-radius:20px;
+  border-radius: 50%; width: 100px;
+  height: 100px;
+  background-image: url(./assets/img1.png); width: 100px;
+  height: 100px;
+  /* background-color: greenyellow !important; */
+}
+.position-absolute {
+  position: absolute;
+    top: 0px;
+    background-color: lightblue;
+}
+.position-relative {
+  position: relative;
+    left: 20px;
+    right: 20px;
+    background-color: bisque;
+}
+.position-sticky {
+  position: sticky;
+    top: 0px;
+    background-color: lightcoral;
+    }
+    .bold {
+        font-weight: bold;
+        font-family: 'Courier New', Courier, monospace;
+    }
+    .google {
+        font-family: 'Playwrite CU Guides', cursive;
+        text-align: center;
+        letter-spacing: 2px;
+        word-spacing: 5px;
+        text-transform: uppercase;
+        text-decoration: underline red;
+    }
+    a, a:link{
+        color: red;
+        text-decoration: none;
+        font-size: large;
+        font-weight: bold;
+        text-decoration: overline;
+    }
+    a:hover {
+        color: blue;
+        text-decoration: none;
+        font-size: large;
+        font-weight: bold;
+        text-decoration: overline;
+    }
+    .calc-style {
+        width: calc(100% - 50px);
+        background-color: lightgray;
+        calc(100vw - 100px);
+    }
+    .fixed-width-col {
+        width: 150px;
+        display:inline-block;
+    }
+    .fluid-col {
+        display:inline-block;
+        calc(100% - 350px);
+    }
+</style>
+<body>
+    <div>
+        <article class="class">
+        This is an article
+    </article>
+    <article class="style-me1">
+        This is an article
+    </article>
+    <article id="style-me2">
+        This is an article
+    </article>
+    <article id="style-me2" class="style-me1" style="color:purple;">
+        This is an article
+    </article>
+    <p class="my-descendants-are-styled">
+        This is a paragraph
+    </p>
+    <div>
+        <div>
+            <p class="my-children-are-styled">
+                This is another paragraph</p>
+        </div>
+        <p class="box" style="color:black;">
+            This is still another paragraph.This is still another paragraph.This is still another paragraph
+        </p>
+    <p class="position-absolute">
+        this is another paragrapgh
+    </p>
+    <p class="position-relative">
+        This is yet another paragraph
+    </p>
+    <p class="position-sticky">
+        This is a sticky paragraph
+        </p>
+        <p class="bold">
+        This is a bold paragraph
+        </p>
+        <p class="google">
+        This is a google paragraph
+        </p>
+        <a href="https://www.google.com">This is a link</a>
+        <p class="calc-style">
+        This is a calc style paragraph
+        </p>
+        <p class="fixed-width-col">
+        This is a fixed width column paragraph
+        </p>
+        <p class="fluid-col">
+        This is a fluid column paragraph
+        </p>
+
+    
+</body>
+</html>
