@@ -1,0 +1,14 @@
+let teamSports = ['Hockey', 'Cricket', 'Volleyball'];
+let dog1 = { name: 'Bingo' };
+let cat1 = { name: 'Fluffy', breed: 'Siberian' };
+console.log(dog1);
+console.log(cat1);
+teamSports.push('Football');
+teamSports.unshift('Basketball');
+console.log(teamSports);
+let dog2 = dog1;
+let cat2 = cat1;
+dog2.name = 'Dogg';
+cat2.name = 'catt';
+console.log(dog2);
+console.log(cat2);
