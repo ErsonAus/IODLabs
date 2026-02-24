@@ -19,6 +19,8 @@
         flex-grow: 1;
         flex-wrap: nowrap;
         flex-wrap: left;
+        min-width: 100px;
+        min-height: 100px;
     }
 .flex1{
         border: 5px solid blue;
@@ -54,7 +56,7 @@
         background-color: green;
         font-size: 50px;
         margin: 10px;
-        flex= 4;
+        flex: 4;
     }
     .flex5{
 
@@ -65,6 +67,15 @@
         margin: 10px;
         flex: 5;
     }
+    .box {
+        border-radius: 8px;
+        min-width: 100px;
+        min-height: 100px;
+        border: 2px solid #910e0e;
+        background: #251197;
+        margin: 2px;
+        display: flex;
+      }
 </style>
 <body>
     <div class="flex-container">
@@ -74,6 +85,10 @@
         <div class="flex4">FAQs</div>
         <div class="flex5">Contact Us</div>
     </div>
-    
+        <div class="box">1</div>
+        <div class="box">2</div>
+        <div class="box">3</div>
+        <div class="box">4</div>
+        <div class="box">5</div>
 </body>
 </html>
