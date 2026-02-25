@@ -12,7 +12,7 @@ function makeCounter(startFrom = 0, incrementBy = 1) {
     };
 }
 
-// Two independent counters
+// Two independent counters 
 let counter1 = makeCounter();   // Default start 0, step 1
 let counter2 = makeCounter();   // A completely separate instance
 
