@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Card Exercises</title>
+  <style>
+    /* Basic card styles */
+    body { font-family: system-ui, Arial; padding: 20px; background:#f5f5f5; }
+    .grid { display: flex; gap: 12px; flex-wrap: wrap; }
+    .card { background:#fff; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,.08); padding:12px; width:220px; }
+    .card img { max-width:100%; height:120px; object-fit:cover; border-radius:4px; display:block; margin-bottom:8px; }
+    .card-title { font-weight:700; margin-bottom:6px; }
+    .card-text { color:#444; font-size:14px; }
+    .artist-profile { width:100%; max-width:760px; margin-bottom:18px; padding:14px; }
+    .portfolio { display:flex; gap:12px; flex-wrap:wrap; margin-top:12px; }
+    header h1 { margin:0 0 12px 0; }
+  </style>
+
+</head>
+<body>
+  <header>
+    <h1>Card Exercises</h1>
+  </header>
+  <div>
+    <h1> Title 1</h1>
+    <p> Description1</p>
+    <h1> Title 2</h1>
+    <p> Description2</p>
+  </div>
+
+  <!-- container for general cards -->
+  <section id="card-list" class="grid" aria-live="polite"></section>
+
+  <!-- container for artist profile and portfolio -->
+  <section id="artist-area"></section>
+
+  <!-- template used for all simple cards -->
+  <template id="card-template">
+    <article class="card">
+      <img class="card-img" src="" alt="" hidden />
+      <div class="card-body">
+        <div class="card-title"></div>
+        <div class="card-text"></div>
+      </div>
+    </article>
+  </template>
+
+  <script>
+    // Utility + addCard implementation
+    // AddCard accepts an object: { title }
+    // Clones the template and inserts into #card-list
+    function addCard({ title = '', text = '', img = '', imgAlt = '' } = {}) {
+      // Clone template node
+      const template = document.getElementById('card-template').content.cloneNode(true);
+
+      // Populate title and text
+      const titleNode = template.querySelector('.card-title');
+      const textNode = template.querySelector('.card-text');
+      if (titleNode) titleNode.innerText = title;
+      if (textNode) textNode.innerText = text;
+
+      // Handle optional image: set src and show element
+      const imgEl = template.querySelector('.card-img');
+      if (img && imgEl) {
+        imgEl.src = img;
+        imgEl.alt = imgAlt || title || 'image';
+        imgEl.hidden = false;
+      } else if (imgEl) {
+        imgEl.hidden = true;
+      }
+
+      // Append populated card to the list
+      document.querySelector('#card-list').appendChild(template);
+    }
+
+    // Generate cards from an array
+    // Sample data array: create one card per object in data
+    const data = [{ name: 'bob', age: 23 }, { name: 'alice', age: 39 }];
+    // Create cards for each person in data
+    data.forEach(person => {
+      addCard({
+        title: person.name,
+        text: `Age: ${person.age}`
+      });
+    });
+
+    // Artist profile with portfolio items
+    // Artist object provided
+    const artist = {
+      name: "Van Gogh",
+      portfolio: [
+        { title: "portrait", url: "https://collectionapi.metmuseum.org/api/collection/v1/iiif/436532/1671316/main-image" },
+        { title: "sky", url: "https://mymodernmet.com/wp/wp-content/uploads/2020/11/White-house-night-van-goh-worldwide2.jpg" }
+      ]
+    };
+
+    // CreateArtistProfile generates a profile card containing portfolio item cards
+    function createArtistProfile(artistObj) {
+      // Create a container for the artist profile
+      const container = document.createElement('div');
+      container.className = 'artist-profile card';
+
+      // Artist name header
+      const h2 = document.createElement('div');
+      h2.className = 'card-title';
+      h2.innerText = artistObj.name || 'Unknown Artist';
+      container.appendChild(h2);
+
+      // Description text
+      const desc = document.createElement('div');
+      desc.className = 'card-text';
+      desc.innerText = `Portfolio (${(artistObj.portfolio || []).length} items)`;
+      container.appendChild(desc);
+
+      // Portfolio area inside the profile
+      const portfolioArea = document.createElement('div');
+      portfolioArea.className = 'portfolio';
+      container.appendChild(portfolioArea);
+
+      // For each portfolio item, create a small card (re-using template logic)
+      (artistObj.portfolio || []).forEach(item => {
+        // Create card element by cloning template to preserve styles
+        const tpl = document.getElementById('card-template').content.cloneNode(true);
+        const titleNode = tpl.querySelector('.card-title');
+        const imgNode = tpl.querySelector('.card-img');
+        const textNode = tpl.querySelector('.card-text');
+
+        if (titleNode) titleNode.innerText = item.title || '';
+        if (textNode) textNode.innerText = '';
+        if (imgNode) {
+          imgNode.src = item.url || '';
+          imgNode.alt = item.title || '';
+          imgNode.hidden = !item.url;
+          imgNode.style.height = '90px';
+        }
+
+        // Append the small card to the portfolio area
+        portfolioArea.appendChild(tpl);
+      });
+
+      // Append completed profile to the page
+      document.getElementById('artist-area').appendChild(container);
+    }
+
+    // Call createArtistProfile for the given artist
+    createArtistProfile(artist);
+  </script>
+</body>
+</html>

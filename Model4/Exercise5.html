@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic News Article Template</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-weight: 600;
+            border-radius: 25px;
+            padding: 10px 25px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 100%;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.9;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .news-card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: white;
+        }
+
+        .news-card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .news-card-body {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-card-content {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .news-card-date {
+            font-size: 0.85rem;
+            color: #999;
+            font-style: italic;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        .status-badge.stopped {
+            background: #f44336;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📰 Dynamic News Feed</h1>
+
+        <!-- Status and Control Buttons -->
+        <div class="controls">
+            <div class="status-badge" id="statusBadge">Live Updates Active</div>
+            <button class="btn btn-warning" id="stopBtn">⏸ Stop Updates</button>
+            <button class="btn btn-success" id="startBtn" style="display: none;">▶ Resume Updates</button>
+        </div>
+
+        <!-- Form Section Part -->
+        <div class="form-section">
+            <h2>Add New Article</h2>
+            <form id="articleForm">
+                <div class="form-group">
+                    <label for="articleTitle">Article Title:</label>
+                    <input type="text" id="articleTitle" required placeholder="Enter article title">
+                </div>
+                <div class="form-group">
+                    <label for="articleContent">Article Content:</label>
+                    <textarea id="articleContent" required placeholder="Enter article content..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-submit">Add Article</button>
+            </form>
+        </div>
+
+        <!-- News Grid - Part -->
+        <div class="news-grid" id="newsContainer">
+            <!-- Articles will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // DYNAMIC NEWS ARTICLE SYSTEM
+
+        // Sample news articles data - starts with initial data
+        let newsArray = [
+            {
+                title: "Breaking: New Technology Unveiled",
+                content: "Scientists have announced a breakthrough in quantum computing that could revolutionize the industry.",
+                date: new Date().toLocaleDateString()
+            },
+            {
+                title: "Sports: Championship Game Tonight",
+                content: "The annual championship game is set to begin at 8 PM. Thousands of fans are expected to attend.",
+                date: new Date().toLocaleDateString()
+            },
+            {
+                title: "Weather: Spring Arrives Early",
+                content: "Meteorologists confirm that spring temperatures are arriving weeks earlier than anticipated.",
+                date: new Date().toLocaleDateString()
+            }
+        ];
+
+        // Variable to store the interval ID for stopping/starting
+        let newsInterval = null;
+        let isIntervalRunning = false;
+
+        // FUNCTION: Render news articles to the DOM
+        function renderNews() {
+            const newsContainer = document.getElementById('newsContainer');
+            
+            // Clear existing articles
+            newsContainer.innerHTML = '';
+
+            // Check if there are news items
+            if (newsArray.length === 0) {
+                newsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📰</div>
+                        <h3>No News Articles Yet</h3>
+                        <p>Add your first article using the form above!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Loop through newsArray and create HTML cards for each article
+            newsArray.forEach((newsItem, index) => {
+                const newsCard = document.createElement('div');
+                newsCard.className = 'news-card';
+                
+                // Build the HTML structure for each news card
+                newsCard.innerHTML = `
+                    <div class="news-card-header">
+                        <h3 class="news-card-title">${escapeHtml(newsItem.title)}</h3>
+                    </div>
+                    <div class="news-card-body">
+                        <p class="news-card-content">${escapeHtml(newsItem.content)}</p>
+                        <p class="news-card-date">📅 ${newsItem.date}</p>
+                    </div>
+                `;
+                
+                // Add the card to the container
+                newsContainer.appendChild(newsCard);
+            });
+        }
+
+        // FUNCTION: Escape HTML to prevent XSS attacks when rendering user input
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // FUNCTION: Start the interval to display/update articles
+        function startInterval() {
+            // Only start if not already running
+            if (isIntervalRunning) return;
+
+            // Update UI to show interval is running
+            document.getElementById('statusBadge').textContent = 'Live Updates Active';
+            document.getElementById('statusBadge').classList.remove('stopped');
+            document.getElementById('stopBtn').style.display = 'inline-block';
+            document.getElementById('startBtn').style.display = 'none';
+
+            // Set interval to refresh news display every 5 seconds (2000ms)
+            newsInterval = setInterval(() => {
+                renderNews(); // Re-render news articles
+                console.log('News updated at', new Date().toLocaleTimeString());
+            }, 2000);
+
+            isIntervalRunning = true;
+            renderNews(); // Initial render
+        }
+
+        // FUNCTION: Stop the interval to pause updates
+        function stopInterval() {
+            // Clear the interval
+            if (newsInterval) {
+                clearInterval(newsInterval);
+                isIntervalRunning = false;
+            }
+
+            // Update UI to show interval is stopped
+            document.getElementById('statusBadge').textContent = 'Updates Paused';
+            document.getElementById('statusBadge').classList.add('stopped');
+            document.getElementById('stopBtn').style.display = 'none';
+            document.getElementById('startBtn').style.display = 'inline-block';
+
+            console.log('News updates stopped');
+        }
+
+        // EVENT LISTENER: Form submission to add new article
+        document.getElementById('articleForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent page reload
+
+            // Get form input values
+            const title = document.getElementById('articleTitle').value;
+            const content = document.getElementById('articleContent').value;
+
+            // Create new news object with current date
+            const newArticle = {
+                title: title,
+                content: content,
+                date: new Date().toLocaleDateString()
+            };
+
+            // Add new article to the beginning of the array (most recent first)
+            newsArray.unshift(newArticle);
+
+            // Render updated news immediately
+            renderNews();
+
+            // Reset form fields
+            this.reset();
+            document.getElementById('articleTitle').focus();
+
+            console.log('New article added:', newArticle);
+        });
+
+        // EVENT LISTENER: Stop button
+        document.getElementById('stopBtn').addEventListener('click', stopInterval);
+
+        // EVENT LISTENER: Start/Resume button
+        document.getElementById('startBtn').addEventListener('click', startInterval);
+
+        // INITIALIZATION: Start the application
+        startInterval(); // Begin the interval and initial render when page loads
+    </script>
+</body>
+</html>

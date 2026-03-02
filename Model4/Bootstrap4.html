@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 4</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Bootstrap Cards</h1>
+        <div class="row" id="card-container">
+            <!-- Cards will be dynamically populated here -->
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+<script>
+    // This script dynamically populates Bootstrap cards in the HTML file
+
+// Array of card data including titles, descriptions, and image URLs
+const cardData = [
+    {
+        title: "Card 1",
+        description: "This is the first card.",
+        imageUrl: "https://images-eu.ssl-images-amazon.com/images/G/29/marketing/prime/reduce_size_1._SY304_CB570029445_.jpg"
+    },
+    {
+        title: "Card 2",
+        description: "This is the second card.",
+        imageUrl: "https://images-eu.ssl-images-amazon.com/images/G/29/Amazon_Renewed/D164951742_Laptops_DQC_186_x_116._SY116_CB544277185_.jpg"
+    },
+    {
+        title: "Card 3",
+        description: "This is the third card.",
+        imageUrl: "https://images-eu.ssl-images-amazon.com/images/G/29/ACS/Made_in_Italy/2026/Traffic/March/men_lowres_desk._SY116_CB787376043_.jpg"
+    },
+    {
+        title: "Card 4",
+        description: "This is the fourth card.",
+        imageUrl: "https://images-eu.ssl-images-amazon.com/images/G/29/EU_Stores/CL/2026/March/SAT_Nespresso/Traffic/EU5/IT/Exp_HP_Quad_Card_DT_02_186x116_6kb._SY116_CB771872491_.jpg"
+    },
+    {
+        title: "Card 5",
+        description: "This is the fifth card.",
+        imageUrl: "https://images-eu.ssl-images-amazon.com/images/G/29/ACS/Made_in_Italy/2025/10YMII/Traffic_campaigns/image_card_low_res_v2._SY304_CB799547090_.jpg"
+    },
+    {
+        title: "Card 6",
+        description: "This is the sixth card.",
+        imageUrl: "https://images-eu.ssl-images-amazon.com/images/G/29/Automotive/Marketing/Gateway_379x304._SY304_CB542287005_.jpg"
+    },
+];
+
+// Function to create and insert cards into the DOM
+function createCards() {
+    // Get the container where cards will be appended
+    const cardContainer = document.getElementById('card-container');
+
+    // Loop through each card data object
+    cardData.forEach(data => {
+        // Create a new card element
+        const card = document.createElement('div');
+        card.className = 'col-md-4 mb-4'; // Bootstrap classes for grid layout
+
+        // Set the inner HTML of the card
+        card.innerHTML = `
+            <div class="card">
+                <img src="${data.imageUrl}" class="card-img-top" alt="${data.title}">
+                <div class="card-body">
+                    <h5 class="card-title">${data.title}</h5>
+                    <p class="card-text">${data.description}</p>
+                </div>
+            </div>
+        `;
+
+        // Append the card to the container
+        cardContainer.appendChild(card);
+    });
+}
+
+// Call the function to create cards when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', createCards);
+</script>
+</html>
