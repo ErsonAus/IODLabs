@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Animation Square Slider</title>
+    <style>
+        /* Reset default margins and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: Arial, sans-serif;
+        }
+
+        /* Container for the slider */
+        .container {
+            position: relative;
+            width: 200px;
+            height: 600px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        /* Sliding square styling */
+        .square {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            /* Apply the animation */
+            animation: slideAndColor 4s infinite ease-in-out;
+        }
+
+        /* Define the animation keyframes */
+        @keyframes slideAndColor {
+            /* Starting position - top of container, blue color */
+            0% {
+                transform: translateY(0);
+                background-color: #FF6B6B;
+            }
+
+            /* Midpoint - halfway down, purple color */
+            50% {
+                background-color: #4ECDC4;
+            }
+
+            /* End position - bottom of container, yellow color */
+            100% {
+                transform: translateY(460px);
+                background-color: #FFE66D;
+            }
+        }
+
+        /* Heading styling */
+        h1 {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 24px;
+            white-space: nowrap;
+        }
+
+        /* Info text styling */
+        .info {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main container holding the animated square -->
+    <div class="container">
+        <!-- The animated square element -->
+        <div class="square"></div>
+        
+        <!-- Title above the container -->
+        <h1>Square Slider Animation</h1>
+        
+        <!-- Information text below the container -->
+        <p class="info">Slides down and back, changing colors</p>
+    </div>
+    <script>
+        // Log a message to the console confirming the script has loaded
+        console.log('Square Slider Animation initialized');
+
+        // Get reference to the square element for potential JavaScript manipulation
+        const square = document.querySelector('.square');
+
+        // Log the square element to verify it was selected correctly
+        console.log('Square element:', square);
+
+        // Add event listener if you want to track animation completion
+        square.addEventListener('animationiteration', function() {
+            // This event fires every time the animation completes one cycle
+            console.log('Animation cycle completed');
+        });
+
+        // You can pause/play the animation by adding interactivity
+        document.body.addEventListener('click', function() {
+            // Toggle between running and paused animation states
+            if (square.style.animationPlayState === 'paused') {
+                square.style.animationPlayState = 'running';
+                console.log('Animation resumed');
+            } else {
+                square.style.animationPlayState = 'paused';
+                console.log('Animation paused');
+            }
+        });
+
+        // Log completion of script execution
+        console.log('Click anywhere to pause/resume the animation');
+    </script>
+</body>
+</html>

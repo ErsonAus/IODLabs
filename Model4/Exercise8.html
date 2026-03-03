@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Luxon date examples</title>
+  <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+</head>
+<body>
+  <h1>Exercise 8: Luxon Date Examples</h1>
+  <pre id="out"></pre>
+
+  <script>
+  // helper to append text to the <pre> for display
+  const outEl = document.getElementById('out');
+  function write(line) {
+    outEl.textContent += line + '\n';
+    console.log(line);
+  }
+
+  // Number of days between your birthdate and now
+  //    Change the ISO string to your actual birthdate.
+  const birthDateIso = '1993-04-01';            // example birthdate
+  const birth = luxon.DateTime.fromISO(birthDateIso);
+  const now = luxon.DateTime.now();
+  // Diff in days, rounded to whole days
+  const daysBetween = now.diff(birth, 'days').days;
+  write(`Days since ${birth.toISODate()}: ${Math.floor(daysBetween)} days`);
+
+  // Years, months and days between birthdate and now
+  // We diff in multiple units and read them as an object
+  const ymd = now.diff(birth, ['years', 'months', 'days']).toObject();
+  // The days value may be fractional; take the integer part
+  write(`Elapsed: ${Math.trunc(ymd.years)} years, `
+        + `${Math.trunc(ymd.months)} months, `
+        + `${Math.trunc(ymd.days)} days`);
+
+  // Given two dates, which is closer to today?
+  const dateA = luxon.DateTime.fromISO('2024-12-25');
+  const dateB = luxon.DateTime.fromISO('2026-01-01');
+  const diffA = Math.abs(now.diff(dateA, 'milliseconds').milliseconds);
+  const diffB = Math.abs(now.diff(dateB, 'milliseconds').milliseconds);
+  const closest = diffA < diffB ? dateA : dateB;
+  write(`Between ${dateA.toISODate()} and ${dateB.toISODate()}, `
+        + `${closest.toISODate()} is closer to now`);
+
+  // Compare two arbitrary dates
+  const first  = luxon.DateTime.fromISO('2023-03-01');
+  const second = luxon.DateTime.fromISO('2022-10-15');
+  // DateTime implements valueOf(), so < and > work
+  if (first < second) {
+    write(`${first.toISODate()} is before ${second.toISODate()}`);
+  } else if (first > second) {
+    write(`${first.toISODate()} is after ${second.toISODate()}`);
+  } else {
+    write(`${first.toISODate()} is the same as ${second.toISODate()}`);
+  }
+
+  // Current time in London
+  const londonTime = luxon.DateTime.now()
+                        .setZone('Europe/London')
+                        .toLocaleString(luxon.DateTime.TIME_WITH_SECONDS);
+  write(`Current time in London: ${londonTime}`);
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake eCommerce Store</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Custom Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Header Styling */
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        /* Controls Section */
+        .controls-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls-section .row {
+            align-items: center;
+        }
+
+        .controls-section label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .controls-section select,
+        .controls-section input,
+        .controls-section button {
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            padding: 10px 15px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .controls-section select:focus,
+        .controls-section input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+            outline: none;
+        }
+
+        .controls-section button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .controls-section button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .spinner.active {
+            display: block;
+        }
+
+        .spinner .spinner-border {
+            color: white;
+            width: 50px;
+            height: 50px;
+        }
+
+        /* Products Grid */
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        /* Product Card Styling */
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: contain;
+            padding: 20px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            width: fit-content;
+            text-transform: uppercase;
+        }
+
+        .category-icon {
+            font-size: 1.2rem;
+            margin-right: 6px;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+            min-height: 50px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-rating {
+            color: #ffc107;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .product-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+            flex-grow: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-add-cart {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add-cart:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-wishlist {
+            width: 45px;
+            height: 45px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            color: #999;
+        }
+
+        .btn-wishlist:hover {
+            background: #ffe0e0;
+            color: #e74c3c;
+        }
+
+        .btn-wishlist.liked {
+            background: #ffe0e0;
+            color: #e74c3c;
+        }
+
+        /* No Products Message */
+        .no-products {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 12px;
+            color: #666;
+        }
+
+        .no-products i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .no-products h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .products-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .controls-section {
+                padding: 15px;
+            }
+
+            .controls-section .row > div {
+                margin-bottom: 15px;
+            }
+
+            .product-card {
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-container {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <h1><i class="fas fa-shopping-bag"></i> Fake Store</h1>
+        <p>Discover Amazing Products at Great Prices</p>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container-lg">
+        <!-- CONTROLS SECTION -->
+        <div class="controls-section">
+            <div class="row">
+                <!-- Category Filter -->
+                <div class="col-md-3 col-sm-6">
+                    <label for="categoryFilter">Filter by Category:</label>
+                    <select id="categoryFilter" class="form-select">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+
+                <!-- Search Feature -->
+                <div class="col-md-3 col-sm-6">
+                    <label for="searchInput">Search Products:</label>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search by title...">
+                </div>
+
+                <!-- Sort Feature -->
+                <div class="col-md-3 col-sm-6">
+                    <label for="sortFilter">Sort by:</label>
+                    <select id="sortFilter" class="form-select">
+                        <option value="">Default</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="title-asc">Title: A to Z</option>
+                        <option value="title-desc">Title: Z to A</option>
+                    </select>
+                </div>
+
+                <!-- Reset Button -->
+                <div class="col-md-3 col-sm-6">
+                    <label>&nbsp;</label>
+                    <button id="resetBtn" class="btn btn-add-cart w-100">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOADING SPINNER -->
+        <div class="spinner" id="loadingSpinner">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p style="color: white; margin-top: 15px;">Loading products...</p>
+        </div>
+
+        <!-- PRODUCTS CONTAINER -->
+        <div class="products-container" id="productsContainer">
+            <!-- Products will be dynamically inserted here -->
+        </div>
+
+        <!-- NO PRODUCTS MESSAGE -->
+        <div class="no-products" id="noProducts" style="display: none;">
+            <i class="fas fa-search"></i>
+            <h3>No Products Found</h3>
+            <p>Try adjusting your filters or search terms</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>&copy; 2026 Fake Store. All rights reserved. | Powered by Fake Store API</p>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // GLOBAL VARIABLES
+        let allProducts = []; // Store all products fetched from API
+        let filteredProducts = []; // Store filtered products based on user input
+
+        // Category icon mapping for visual representation
+        const categoryIcons = {
+            'electronics': 'fas fa-laptop',
+            'jewelery': 'fas fa-ring',
+            'men\'s clothing': 'fas fa-shirt',
+            'women\'s clothing': 'fas fa-dress'
+        };
+
+        // FETCH PRODUCTS FROM FAKE STORE API
+        /**
+         * Fetches all products from the Fake Store API and initializes the application
+         * Uses the Fetch API to retrieve product data
+         */
+        async function fetchProducts() {
+            try {
+                // Show loading spinner
+                document.getElementById('loadingSpinner').classList.add('active');
+
+                // Fetch data from Fake Store API
+                const response = await fetch('https://fakestoreapi.com/products');
+                
+                // Check if the response is successful
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                // Parse the JSON response
+                allProducts = await response.json();
+                filteredProducts = [...allProducts]; // Initialize filtered products
+
+                // Populate category dropdown after fetching products
+                populateCategories();
+
+                // Display all products initially
+                displayProducts(filteredProducts);
+
+                // Hide loading spinner
+                document.getElementById('loadingSpinner').classList.remove('active');
+
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                document.getElementById('loadingSpinner').classList.remove('active');
+                document.getElementById('productsContainer').innerHTML = `
+                    <div class="no-products">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>Error Loading Products</h3>
+                        <p>Unable to fetch products from the API. Please try again later.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // POPULATE CATEGORY DROPDOWN
+        /**
+         * Extracts unique categories from products array and populates the category filter dropdown
+         */
+        function populateCategories() {
+            // Create a Set to store unique categories (Set prevents duplicates)
+            const categories = new Set(allProducts.map(product => product.category));
+
+            // Get the category filter dropdown
+            const categoryFilter = document.getElementById('categoryFilter');
+
+            // Convert Set to Array, sort alphabetically, and add each category as an option
+            Array.from(categories).sort().forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category.charAt(0).toUpperCase() + category.slice(1); // Capitalize first letter
+                categoryFilter.appendChild(option);
+            });
+        }
+        /*
+         * Creates and displays product cards for the given products array
+         * param {Array} products - Array of product objects to display
+         */
+        function displayProducts(products) {
+            const container = document.getElementById('productsContainer');
+            const noProductsMsg = document.getElementById('noProducts');
+
+            // Check if there are products to display
+            if (products.length === 0) {
+                container.innerHTML = ''; // Clear container
+                noProductsMsg.style.display = 'block'; // Show "no products" message
+                return;
+            }
+
+            // Hide "no products" message
+            noProductsMsg.style.display = 'none';
+
+            // Clear previous content
+            container.innerHTML = '';
+
+            // Create a card for each product
+            products.forEach(product => {
+                const card = createProductCard(product);
+                container.appendChild(card);
+            });
+        }
+        /*
+         * Creates an individual product card element with all necessary styling and interactions
+         * param {Object} product - Product object containing product details
+         * returns {HTMLElement} - The product card element
+         */
+        function createProductCard(product) {
+            // Create main card container
+            const card = document.createElement('div');
+            card.className = 'product-card';
+
+            // Get the appropriate icon for the category
+            const icon = categoryIcons[product.category.toLowerCase()] || 'fas fa-box';
+
+            // Generate star rating based on product rating
+            const stars = generateStars(product.rating.rate);
+
+            // Build the card HTML structure
+            card.innerHTML = `
+                <!-- Product Image -->
+                <img src="${product.image}" alt="${product.title}" class="product-image">
+                
+                <!-- Product Information -->
+                <div class="product-info">
+                    <!-- Category Badge with Icon -->
+                    <div class="category-badge">
+                        <i class="${icon} category-icon"></i>
+                        ${product.category}
+                    </div>
+                    
+                    <!-- Product Title -->
+                    <h3 class="product-title">${product.title}</h3>
+                    
+                    <!-- Product Rating with Stars -->
+                    <div class="product-rating">
+                        ${stars} <span>(${product.rating.count} reviews)</span>
+                    </div>
+                    
+                    <!-- Product Description -->
+                    <p class="product-description">${product.description}</p>
+                    
+                    <!-- Product Price -->
+                    <div class="product-price">$${product.price.toFixed(2)}</div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="product-actions">
+                        <!-- Add to Cart Button -->
+                        <button class="btn-add-cart" onclick="addToCart(${product.id}, '${product.title}', ${product.price})">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                        
+                        <!-- Wishlist Button -->
+                        <button class="btn-wishlist" onclick="toggleWishlist(this)" title="Add to Wishlist">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+        /*
+         * Converts numeric rating to star HTML display
+         * param {Number} rating - Rating value (0-5)
+         * returns {String} - HTML string of star icons
+         */
+        function generateStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+
+            // Add full stars
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+
+            // Add half star if applicable
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+
+            // Add empty stars to make total 5
+            const emptyStars = 5 - Math.ceil(rating);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+
+            return stars;
+        }
+
+        // FILTER AND SEARCH FUNCTIONALITY
+        /*
+         * Applies all active filters (category, search, sort) and updates the display
+         */
+        function applyFilters() {
+            const categoryValue = document.getElementById('categoryFilter').value.toLowerCase();
+            const searchValue = document.getElementById('searchInput').value.toLowerCase();
+            const sortValue = document.getElementById('sortFilter').value;
+
+            // Filter by category
+            filteredProducts = allProducts.filter(product => {
+                return categoryValue === '' || product.category.toLowerCase() === categoryValue;
+            });
+
+            // Filter by search term (search in title and description)
+            filteredProducts = filteredProducts.filter(product => {
+                return searchValue === '' || 
+                       product.title.toLowerCase().includes(searchValue) ||
+                       product.description.toLowerCase().includes(searchValue);
+            });
+
+            // Apply sorting
+            if (sortValue) {
+                filteredProducts = sortProducts(filteredProducts, sortValue);
+            }
+
+            // Display the filtered and sorted products
+            displayProducts(filteredProducts);
+        }
+        /*
+         * Sorts products based on the selected sorting criteria
+         * param {Array} products - Array of products to sort
+         * param {String} sortType - Type of sorting to apply
+         * returns {Array} - Sorted array of products
+         */
+        function sortProducts(products, sortType) {
+            // Create a copy of the array to avoid modifying the original
+            const sorted = [...products];
+
+            switch (sortType) {
+                // Sort by price ascending (low to high)
+                case 'price-low':
+                    sorted.sort((a, b) => a.price - b.price);
+                    break;
+
+                // Sort by price descending (high to low)
+                case 'price-high':
+                    sorted.sort((a, b) => b.price - a.price);
+                    break;
+
+                // Sort by title ascending (A to Z)
+                case 'title-asc':
+                    sorted.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+
+                // Sort by title descending (Z to A)
+                case 'title-desc':
+                    sorted.sort((a, b) => b.title.localeCompare(a.title));
+                    break;
+
+                default:
+                    // No sorting applied
+                    break;
+            }
+
+            return sorted;
+        }
+
+        // ADD TO CART FUNCTIONALITY
+        /*
+         * Adds a product to the shopping cart (simulated with alert and localStorage)
+         * param {Number} productId - ID of the product to add
+         * param {String} productTitle - Title of the product
+         * param {Number} price - Price of the product
+         */
+        function addToCart(productId, productTitle, price) {
+            // Show confirmation message
+            alert(`✓ "${productTitle}" added to cart!\nPrice: $${price.toFixed(2)}`);
+
+            // Store in localStorage for persistence
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({
+                id: productId,
+                title: productTitle,
+                price: price,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            console.log('Product added to cart:', {id: productId, title: productTitle, price});
+        }
+
+        // TOGGLE WISHLIST
+        /*
+         * Toggles the wishlist heart icon between liked and unliked states
+         * param {HTMLElement} button - The wishlist button element
+         */
+        function toggleWishlist(button) {
+            // Toggle the 'liked' class to change appearance
+            button.classList.toggle('liked');
+
+            // Toggle between filled and empty heart icons
+            if (button.classList.contains('liked')) {
+                button.innerHTML = '<i class="fas fa-heart"></i>';
+                console.log('Added to wishlist');
+            } else {
+                button.innerHTML = '<i class="far fa-heart"></i>';
+                console.log('Removed from wishlist');
+            }
+        }
+
+        // RESET FILTERS
+        /*
+         * Resets all filters to their default state and displays all products
+         */
+        function resetFilters() {
+            // Reset all filter inputs to empty/default
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('sortFilter').value = '';
+
+            // Set filtered products to all products
+            filteredProducts = [...allProducts];
+
+            // Display all products
+            displayProducts(filteredProducts);
+
+            // Console feedback
+            console.log('Filters reset - displaying all products');
+        }
+
+        // EVENT LISTENERS
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch products when page loads
+            fetchProducts();
+
+            // Add event listener to category filter dropdown
+            document.getElementById('categoryFilter').addEventListener('change', applyFilters);
+
+            // Add event listener to search input with debouncing for better performance
+            let searchTimeout;
+            document.getElementById('searchInput').addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(applyFilters, 300); // Debounce search by 300ms
+            });
+
+            // Add event listener to sort dropdown
+            document.getElementById('sortFilter').addEventListener('change', applyFilters);
+
+            // Add event listener to reset button
+            document.getElementById('resetBtn').addEventListener('click', resetFilters);
+
+            console.log('Event listeners initialized');
+        });
+    </script>
+</body>
+</html>
