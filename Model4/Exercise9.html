@@ -20,7 +20,7 @@
         let priceChart = echarts.init(document.getElementById('priceChart'));
 
         // Fetch product data from Fake Store API
-        fetch('https://fakestoreapi.com/products')
+        fetch('https://fakestoreapi.com/products') 
             .then((response) => response.json())
             .then((products) => {
                 console.log('Fetched products:', products);
