@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>La Spezia &amp; Cinque Terre - Places to Visit</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* Basic custom styles */
+        body { padding-top: 70px; background: #f8f9fa; }
+        .card-img-top { object-fit: cover; height: 200px; }
+        .icon-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            padding: 8px;
+            font-size: 18px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+        }
+        .price-tag { font-weight: 700; color: #0d6efd; }
+        .controls .form-control, .controls .form-select { min-width: 180px; }
+        .card-clickable { cursor: pointer; }
+        .address { display: block; font-style: italic;
+} 
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">La Spezia Area - Travel Picks</a>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMain">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#places">Places</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Controls: category select, search, sort -->
+        <section class="controls mb-4 d-flex flex-wrap gap-2 align-items-center">
+            <div class="me-auto d-flex gap-2">
+                <select id="categorySelect" class="form-select" aria-label="Filter by category">
+                    <option value="all">All categories</option>
+                </select>
+
+                <select id="sortSelect" class="form-select" aria-label="Sort items">
+                    <option value="default">Sort: Default</option>
+                    <option value="price-asc">Price: Low → High</option>
+                    <option value="price-desc">Price: High → Low</option>
+                    <option value="title-asc">Title: A → Z</option>
+                    <option value="title-desc">Title: Z → A</option>
+                </select>
+            </div>
+
+            <div class="d-flex gap-2 w-100 w-md-auto">
+                <input id="searchInput" class="form-control" placeholder="Search items..." />
+                <button id="resetBtn" class="btn btn-outline-secondary">Reset</button>
+            </div>
+        </section>
+
+        <!-- Cards container -->
+        <section id="places" class="row" aria-live="polite">
+            <!-- Cards injected here -->
+        </section>
+
+        <section id="about" class="mt-5">
+            <h3>Project Notes</h3>
+            <ul>
+                <li>Data is loaded from an in-page JSON blob and fetched (simulates external API).</li>
+                <li>Features: category filter, search, icons, sorting, Bootstrap responsive cards. Click a card to view a user tip.</li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Modal to display item tip when card clicked -->
+    <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="commentModalLabel">Item tip</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="commentModalBody">
+            <!-- comment text injected here -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Embedded JSON data (acts like the API file) with new "comment" field for each item -->
+    <script id="places-json" type="application/json">
+[
+  {
+    "id": 1,
+    "title": "Hike to Vernazza Viewpoint",
+    "price": 0,
+    "description": "Scenic hike with views over Vernazza and coastline; moderate difficulty.",
+    "category": "Hiking",
+    "image": "https://shippedaway.com/wp-content/uploads/2025/08/Vernazza-to-Monterosso-Hike-Guide-1536x864.jpg",
+    "comment": "Great sunrise spot — bring water and good shoes."
+  },
+  {
+    "id": 2,
+    "title": "Boat Tour to Portovenere",
+    "price": 45,
+    "description": "Two-hour boat trip visiting Portovenere, Palmaria island & secret coves.",
+    "category": "Boat Trip",
+    "image": "https://tse2.mm.bing.net/th/id/OIP.ZuBKW-4d2_ugsATpPXz1QQHaFj?pid=Api&P=0&h=180",
+    "comment": "Book early in summer; seas can be choppy mid-day."
+  },
+  {
+    "id": 3,
+    "title": "Portovenere Historical Walk",
+    "price": 12,
+    "description": "Guided walking tour of Portovenere's churches, fortifications and alleys.",
+    "category": "Sightseeing",
+    "image": "https://m.jtgtravel.com/img/walking-towards-portovenere-and-the-secrets-of-the-ancient-olives-roman-mill-d29856-117912P4-1.jpg",
+    "comment": "Excellent guide — ask about local legends."
+  },
+  {
+    "id": 4,
+    "title": "Cinque Terre Train Pass",
+    "price": 18,
+    "description": "Unlimited train travel between the five villages for one day.",
+    "category": "Transport",
+    "image": "https://cdn-imgix.headout.com/media/images/b0f50ed7cd1b34eade892ef3904e2f5c-4440-la-spezia-skip-the-line-train-pass-for-cinque-terre-01.jpg?w=588&h=300&crop=faces&auto=compress%2Cformat&fit=min",
+    "comment": "Saves time — validate your pass before boarding."
+  },
+  {
+    "id": 5,
+    "title": "Lerici Castle Entry",
+    "price": 6,
+    "description": "Ticket to visit the historic castle with panoramic terraces.",
+    "category": "Museum",
+    "image": "https://thumbs.dreamstime.com/b/cityscape-lerici-ancient-castle-tourist-resort-coast-gulf-la-spezia-mediterranean-sea-liguria-italy-233991421.jpg",
+    "comment": "Nice views from the ramparts, small cafe nearby."
+  },
+  {
+    "id": 6,
+    "title": "Seafood Tasting Menu - La Spezia",
+    "price": 35,
+    "description": "Chef-curated tasting of local seafood specialities in La Spezia.",
+    "category": "Food",
+    "image": "https://res.cloudinary.com/tf-lab/image/upload/f_auto,q_auto,w_800,c_limit/customer/68beae8a-0116-41d2-8630-b45553dbf9aa/64d607b3-3902-4007-82ca-61ddb1d6dad9.jpg",
+    "comment": "Reserve a table — portions are generous."
+  },
+  {
+    "id": 7,
+    "title": "Kayak Around Palmaria",
+    "price": 30,
+    "description": "Guided kayak tour around Palmaria island with snorkeling stops.",
+    "category": "Water Sports",
+    "image": "https://lamialiguria.it/wp-content/uploads/2022/12/in-kayak-all-isola-palmaria.jpg",
+    "comment": "Bring a waterproof camera and sunscreen."
+  },
+  {
+    "id": 8,
+    "title": "Riomaggiore Sunset Photo Tour",
+    "price": 20,
+    "description": "Small-group sunset walk with tips for capturing the best photos.",
+    "category": "Photography",
+    "image": "https://thumbs.dreamstime.com/b/sunset-riomaggiore-cinque-terre-unesco-world-heritage-italy-sunset-riomaggiore-cinque-terre-italy-220106728.jpg",
+    "comment": "Arrive a bit early to secure the best vantage point."
+  },
+  {
+    "id": 9,
+    "title": "Monterosso Beach Relax Day",
+    "price": 0,
+    "description": "Spend a day at the sandy beach of Monterosso; sunbeds available for rent.",
+    "category": "Beach",
+    "image": "https://thumbs.dreamstime.com/b/rock-fegina-beach-monterosso-al-mare-summer-day-imposing-rock-edge-beach-town-monterosso-many-243055892.jpg",
+    "comment": "Free access; consider renting a sunbed for comfort."
+  },
+  {
+    "id": 10,
+    "title": "La Spezia Naval Museum",
+    "price": 8,
+    "description": "Discover the naval history of the Gulf of La Spezia in this maritime museum.",
+    "category": "Museum",
+    "image": "https://thumbs.dreamstime.com/z/naval-museum-la-spezia-technical-museo-tecnico-navale-history-located-liguria-region-italy-186519816.jpg",
+    "comment": "Interactive exhibits are great for kids."
+  }
+]
+    </script>
+
+    <!-- Bootstrap JS bundle (with Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Main script: loads JSON via fetch (from in-page blob), renders cards, and implements filtering, search, sorting and comment modal -->
+    <script>
+/*
+  Main application script
+  Loads the JSON data embedded above by building a Blob and fetching it (simulates external API).
+  Renders Bootstrap cards for each place.
+  Implements filtering by category, search, sorting.
+  Shows the 'comment' field in a Bootstrap modal when a card is clicked.
+  All functions are commented for clarity.
+*/
+
+(async function() {
+  // Get references to UI elements
+  const categorySelect = document.getElementById('categorySelect');
+  const sortSelect = document.getElementById('sortSelect');
+  const searchInput = document.getElementById('searchInput');
+  const resetBtn = document.getElementById('resetBtn');
+  const cardsRow = document.getElementById('places');
+  const commentModalEl = document.getElementById('commentModal'); // modal element
+  const commentModalBody = document.getElementById('commentModalBody'); // modal body element
+  const commentModalTitle = document.getElementById('commentModalLabel'); // modal title element
+
+  let allItems = [];      // Full dataset loaded from "API"
+  let filteredItems = []; // Current filtered/sorted list shown to user
+
+  // ICON MAPPING: maps categories to Font Awesome classes (used as custom icons for cards)
+  const categoryIcons = {
+    "Hiking": "fa-person-hiking",
+    "Boat Trip": "fa-ship",
+    "Sightseeing": "fa-binoculars",
+    "Transport": "fa-train",
+    "Museum": "fa-landmark",
+    "Food": "fa-utensils",
+    "Water Sports": "fa-water",
+    "Photography": "fa-camera",
+    "Beach": "fa-umbrella-beach",
+    "default": "fa-map-marker-alt"
+  };
+
+  // Create a Bootstrap modal controller instance (using Bootstrap's JS API)
+  const bootstrapModal = new bootstrap.Modal(commentModalEl);
+
+  // Fetch the embedded JSON by creating a Blob URL (this uses fetch as requested)
+  // Steps:
+  // Read the text content of the <script id="places-json"> element.
+  // Create a Blob of type application/json.
+  // Create an object URL and fetch it.
+  async function fetchPlacesFromEmbeddedJSON() {
+    const jsonScript = document.getElementById('places-json');
+    const text = jsonScript ? jsonScript.textContent.trim() : '[]';
+    const blob = new Blob([text], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      URL.revokeObjectURL(url); // clean up
+      return data;
+    } catch (err) {
+      console.error('Failed to fetch places JSON', err);
+      return [];
+    }
+  }
+
+  // Populate category dropdown from unique categories in the dataset
+  function populateCategoryOptions(items) {
+    const categories = Array.from(new Set(items.map(i => i.category))).sort();
+    // Clear existing options except 'all'
+    categorySelect.innerHTML = '<option value="all">All categories</option>';
+    categories.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat;
+      opt.textContent = cat;
+      categorySelect.appendChild(opt);
+    });
+  }
+
+  // Show comment modal for given item (fills title & body then displays modal)
+  function showCommentModal(item) {
+    // Set modal title and body with item's comment
+    commentModalTitle.textContent = item.title || 'Comment';
+    commentModalBody.textContent = item.comment || 'No comment available.';
+    // Show modal using Bootstrap API
+    bootstrapModal.show();
+  }
+
+  // Create a single Bootstrap card element for a place item
+  function createCard(item) {
+    const col = document.createElement('div');
+    col.className = 'col-12 col-sm-6 col-md-4 mb-4';
+
+    const card = document.createElement('div');
+    // Make card clickable and accessible
+    card.className = 'card h-100 position-relative shadow-sm card-clickable';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', item.title + ' — click to view comment');
+
+    // Icon badge
+    const icon = document.createElement('div');
+    icon.className = 'icon-badge';
+    const fa = categoryIcons[item.category] || categoryIcons['default'];
+    icon.innerHTML = `<i class="fa-solid ${fa}"></i>`;
+    card.appendChild(icon);
+
+    // Image
+    const img = document.createElement('img');
+    img.className = 'card-img-top';
+    img.src = item.image;
+    img.alt = item.title;
+    card.appendChild(img);
+
+    // Card body: title, description, price
+    const body = document.createElement('div');
+    body.className = 'card-body d-flex flex-column';
+
+    const title = document.createElement('h5');
+    title.className = 'card-title';
+    title.textContent = item.title;
+    body.appendChild(title);
+
+    const desc = document.createElement('p');
+    desc.className = 'card-text text-muted small';
+    desc.textContent = item.description;
+    body.appendChild(desc);
+
+    // Footer-like row with category and price
+    const footer = document.createElement('div');
+    footer.className = 'mt-auto d-flex justify-content-between align-items-center pt-2';
+    const catBadge = document.createElement('span');
+    catBadge.className = 'badge bg-secondary';
+    catBadge.textContent = item.category;
+    footer.appendChild(catBadge);
+
+    const price = document.createElement('span');
+    price.className = 'price-tag';
+    price.textContent = item.price > 0 ? `€${item.price}` : 'Free';
+    footer.appendChild(price);
+
+    body.appendChild(footer);
+    card.appendChild(body);
+    col.appendChild(card);
+
+    // Click handler shows the comment modal with the item's comment
+    card.addEventListener('click', () => showCommentModal(item));
+    // Keyboard accessibility: Enter or Space should open modal
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        showCommentModal(item);
+      }
+    });
+
+    return col;
+  }
+
+  // Render a list of items into the cards container
+  function renderCards(items) {
+    // Clear existing cards
+    cardsRow.innerHTML = '';
+    if (!items || items.length === 0) {
+      // Show placeholder if no items match
+      const empty = document.createElement('div');
+      empty.className = 'col-12';
+      empty.innerHTML = '<div class="alert alert-info">No items found.</div>';
+      cardsRow.appendChild(empty);
+      return;
+    }
+    // Create document fragment for performance
+    const frag = document.createDocumentFragment();
+    items.forEach(item => frag.appendChild(createCard(item)));
+    cardsRow.appendChild(frag);
+  }
+
+  // Apply filter (category), search and sort, then render
+  function applyFiltersAndRender() {
+    const category = categorySelect.value;
+    const search = searchInput.value.trim().toLowerCase();
+    const sort = sortSelect.value;
+
+    // Filter by category
+    filteredItems = allItems.filter(it => category === 'all' ? true : it.category === category);
+
+    // Search filter (title + description + comment + category)
+    if (search) {
+      filteredItems = filteredItems.filter(it =>
+        (it.title + ' ' + it.description + ' ' + (it.comment || '') + ' ' + it.category).toLowerCase().includes(search)
+      );
+    }
+
+    // Sorting
+    if (sort === 'price-asc') {
+      filteredItems.sort((a,b) => a.price - b.price);
+    } else if (sort === 'price-desc') {
+      filteredItems.sort((a,b) => b.price - a.price);
+    } else if (sort === 'title-asc') {
+      filteredItems.sort((a,b) => a.title.localeCompare(b.title));
+    } else if (sort === 'title-desc') {
+      filteredItems.sort((a,b) => b.title.localeCompare(a.title));
+    }
+
+    renderCards(filteredItems);
+  }
+
+  // Reset filters to defaults
+  function resetFilters() {
+    categorySelect.value = 'all';
+    sortSelect.value = 'default';
+    searchInput.value = '';
+    applyFiltersAndRender();
+  }
+
+  // Debounce helper for search input to reduce frequent re-renders
+  function debounce(fn, delay = 250) {
+    let t;
+    return (...args) => {
+      clearTimeout(t);
+      t = setTimeout(() => fn(...args), delay);
+    };
+  }
+
+  // Initialize app: fetch data, populate UI, wire event handlers
+  async function init() {
+    allItems = await fetchPlacesFromEmbeddedJSON();
+    populateCategoryOptions(allItems);
+    applyFiltersAndRender();
+
+    // Event listeners
+    categorySelect.addEventListener('change', applyFiltersAndRender);
+    sortSelect.addEventListener('change', applyFiltersAndRender);
+    searchInput.addEventListener('input', debounce(applyFiltersAndRender, 200));
+    resetBtn.addEventListener('click', resetFilters);
+  }
+
+  // Start
+  init();
+
+})();
+    </script>
+    <address class="address mt-5 text-center">
+Written by <a href="mailto:laspezia@laspezia.com">Erson Kice</a>.<br> 
+Visit us at:<br>
+Example.com<br>
+Via S. Maria, 4, La Spezia<br>
+ITALY
+</address>
+</body>
+</html>
