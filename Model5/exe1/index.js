@@ -11,6 +11,6 @@ module.exports = {
     SERVER2_PORT,
     SERVER3_PORT
 };
-const Router = require('./Routes/Exercise1.1'); // Importing the first server configuration
-const Router = require('./Routes/Exercise1.2'); // Importing the second server configuration
-const Router = require('./Routes/Exercise1.3'); // Importing the third server configuration
+const Router = require('./Router/Router1'); // Importing the first server configuration
+const Router = require('./Router/Router2'); // Importing the second server configuration
+const Router = require('./Router/Router3'); // Importing the third server configurati

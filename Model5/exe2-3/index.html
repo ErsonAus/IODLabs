@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Assuming existing HTML structure like <html><head><title>Calculator</title></head><body>...</body></html> -->
+<!-- ...existing code... -->
+
+    <h1>Calculator</h1> <!-- Title for the calculator interface -->
+    <input type="number" id="num1" placeholder="First number"> <!-- Input for first number -->
+    <input type="number" id="num2" placeholder="Second number"> <!-- Input for second number -->
+    <br><br>
+    <button onclick="calculate('add')">Add</button> <!-- Button to trigger add operation -->
+    <button onclick="calculate('subtract')">Subtract</button> <!-- Button to trigger subtract operation -->
+    <button onclick="calculate('multiply')">Multiply</button> <!-- Button to trigger multiply operation -->
+    <button onclick="calculate('divide')">Divide</button> <!-- Button to trigger divide operation -->
+    <br><br>
+    <div id="result"></div> <!-- Div to display the result -->
+
+    <script>
+        async function calculate(operation) { // Function to handle calculation requests
+            const num1 = parseFloat(document.getElementById('num1').value); // Get first number from input
+            const num2 = parseFloat(document.getElementById('num2').value); // Get second number from input
+            if (isNaN(num1) || isNaN(num2)) { // Check if inputs are valid numbers
+                document.getElementById('result').innerText = 'Please enter valid numbers'; // Display error message
+                return; // Exit function if invalid
+            }
+            try {
+                const response = await fetch(`/${operation}`, { // Send POST request to the corresponding route
+                    method: 'POST', // Use POST method
+                    headers: { 'Content-Type': 'application/json' }, // Set content type to JSON
+                    body: JSON.stringify({ num1, num2 }) // Send numbers in JSON format
+                });
+                const data = await response.json(); // Parse JSON response
+                if (response.ok) { // If response is successful
+                    document.getElementById('result').innerText = `Result: ${data.result}`; // Display result
+                } else { // If there's an error
+                    document.getElementById('result').innerText = `Error: ${data.error}`; // Display error
+                }
+            } catch (error) { // Handle fetch errors
+                document.getElementById('result').innerText = 'Error: Unable to connect to server'; // Display connection error
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Include Axios library for HTTP requests -->
+
+<!-- ...existing code... -->
+</body>
+</html>
