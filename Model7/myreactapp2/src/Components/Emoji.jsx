@@ -13,7 +13,7 @@ function useEmoji() {
 }
 
 // Provider (inside same file)
-function EmojiProvider({ children }) {
+export function EmojiProvider({ children }) {
     const moodByEmoji = {
         "😊": "Feeling happy today!",
         "😢": "Feeling a bit sad right now.",
@@ -39,7 +39,7 @@ function EmojiProvider({ children }) {
 }
 
 // UI that consumes context
-function EmojiContent() {
+export function EmojiContent() {
     const { emoji, moodComment, toggleEmoji } = useEmoji();
 
     return (

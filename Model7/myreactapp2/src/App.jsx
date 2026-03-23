@@ -6,17 +6,25 @@ import './App.css'
 //import BitcoinRates from './Components/BitcoinRates' // Import the BitcoinRates component to display the current price of Bitcoin in various currencies.
 //import BitcoinRatesExe2 from './Components/BitcoinRatesExe2' // Import the updated BitcoinRates component that uses the custom hook for fetching Bitcoin price data.
 //import AppRoutes from './AppRoutes/AppRoutes'
-import BitcoinRatesExe3 from './Components/BitcoinRatesExe3' // Import the updated BitcoinRates component that includes error handling and loading states.
-import Emoji from './Components/Emoji' // Import the Emoji component to display an emoji and a mood comment that can be toggled by the user.
-
+//import BitcoinRatesExe3 from './Components/BitcoinRatesExe3' // Import the updated BitcoinRates component that includes error handling and loading states.
+//import Emoji from './Components/Emoji' // Import the Emoji component to display an emoji and a mood comment that can be toggled by the user.
+import ReactAppExe4 from './Components/ReactAppExe4' // Import the main React application component that includes multiple pages and navigation.
+import { EmojiProvider } from './Components/Emoji'
+import BitcoinRates from './Components/BitcoinRatesExe3'
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     < >
-    <BitcoinRatesExe3></BitcoinRatesExe3>
-    <Emoji></Emoji>
+    
+      <EmojiProvider>
+            <BitcoinRates></BitcoinRates>
+        </EmojiProvider>
+        <ReactAppExe4></ReactAppExe4>
+
     {/*<AppRoutes />*/}
+    {/*<BitcoinRatesExe3></BitcoinRatesExe3>*/}
+    {/*<Emoji></Emoji>*/}
 
 {/*<BitcoinRatesExe2></BitcoinRatesExe2>/*}
 

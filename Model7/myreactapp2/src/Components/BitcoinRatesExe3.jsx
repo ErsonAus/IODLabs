@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'; // Import React and the hooks used by this component.
-import Emoji from './Emoji';
+import Emoji, { EmojiContent } from './Emoji';
 
 // Define the list of supported currencies.
 const currencies = ['USD', 'AUD', 'NZD', 'GBP', 'EUR', 'SGD'];
@@ -82,6 +82,7 @@ function BitcoinRates() {
   // Render the component UI.
   return (
     <div className="BitcoinRates componentBox">
+      <EmojiContent />
       <h3>Bitcoin Exchange Rate</h3>
 
       <label>
