@@ -11,16 +11,18 @@ import './App.css'
 import ReactAppExe4 from './Components/ReactAppExe4' // Import the main React application component that includes multiple pages and navigation.
 import { EmojiProvider } from './Components/Emoji'
 import BitcoinRates from './Components/BitcoinRatesExe3'
+import ReactAppExe5 from './Components/ReactAppExe5'
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     < >
-    
-      <EmojiProvider>
+    <ReactAppExe5></ReactAppExe5>
+
+      {/*<EmojiProvider>
             <BitcoinRates></BitcoinRates>
         </EmojiProvider>
-        <ReactAppExe4></ReactAppExe4>
+        <ReactAppExe4></ReactAppExe4>*/}
 
     {/*<AppRoutes />*/}
     {/*<BitcoinRatesExe3></BitcoinRatesExe3>*/}
