@@ -12,12 +12,16 @@ import ReactAppExe4 from './Components/ReactAppExe4' // Import the main React ap
 import { EmojiProvider } from './Components/Emoji'
 import BitcoinRates from './Components/BitcoinRatesExe3'
 import ReactAppExe5 from './Components/ReactAppExe5'
+import MiniProject2 from './Components/MiniProject2'
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     < >
-    <ReactAppExe5></ReactAppExe5>
+
+      <MiniProject2></MiniProject2>
+
+    {/* <ReactAppExe5></ReactAppExe5> */}
 
       {/*<EmojiProvider>
             <BitcoinRates></BitcoinRates>
