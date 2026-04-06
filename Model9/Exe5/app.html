@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO Chat Application</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to a CSS file for styling (optional) -->
+    <script src="/socket.io/socket.io.js"></script> <!-- Include Socket.IO client library -->
+    <script src="client.js" defer></script> <!-- Link to the client-side JavaScript file -->
+</head>
+<body>
+    <div id="chat-container">
+        <div id="users">
+            <h2>Online Users</h2>
+            <ul id="user-list"></ul> <!-- List to display online users -->
+        </div>
+        <div id="messages">
+            <h2>Chat Messages</h2>
+            <ul id="message-list"></ul> <!-- List to display chat messages -->
+        </div>
+        <input id="nickname" placeholder="Enter your nickname" /> <!-- Input for user nickname -->
+        <input id="message" placeholder="Type a message..." /> <!-- Input for chat messages -->
+        <button id="send">Send</button> <!-- Button to send messages -->
+        <div id="typing-notification"></div> <!-- Area to display typing notifications -->
+    </div>
+</body>
+</html>
