@@ -1,0 +1,24 @@
+{
+    "animals":[
+  { "title": "Bengal Tiger", "sciName": "Panthera tigris tigris", "countryOfOrigin": "India" },
+  { "title": "Giant Panda", "sciName": "Ailuropoda melanoleuca", "countryOfOrigin": "China" },
+  { "title": "Red Kangaroo", "sciName": "Osphranter rufus", "countryOfOrigin": "Australia" },
+  { "title": "Bald Eagle", "sciName": "Haliaeetus leucocephalus", "countryOfOrigin": "United States" },
+  { "title": "Emperor Penguin", "sciName": "Aptenodytes forsteri", "countryOfOrigin": "Antarctica" },
+  { "title": "Koala", "sciName": "Phascolarctos cinereus", "countryOfOrigin": "Australia" },
+  { "title": "African Elephant", "sciName": "Loxodonta africana", "countryOfOrigin": "Kenya" },
+  { "title": "Snow Leopard", "sciName": "Panthera uncia", "countryOfOrigin": "Nepal" },
+  { "title": "Moose", "sciName": "Alces alces", "countryOfOrigin": "Canada" },
+  { "title": "Komodo Dragon", "sciName": "Varanus komodoensis", "countryOfOrigin": "Indonesia" },
+  { "title": "Capybara", "sciName": "Hydrochoerus hydrochaeris", "countryOfOrigin": "Brazil" },
+  { "title": "European Hedgehog", "sciName": "Erinaceus europaeus", "countryOfOrigin": "United Kingdom" },
+  { "title": "Arctic Fox", "sciName": "Vulpes lagopus", "countryOfOrigin": "Iceland" },
+  { "title": "Polar Bear", "sciName": "Ursus maritimus", "countryOfOrigin": "Norway" },
+  { "title": "Cheetah", "sciName": "Acinonyx jubatus", "countryOfOrigin": "Namibia" },
+  { "title": "King Cobra", "sciName": "Ophiophagus hannah", "countryOfOrigin": "Thailand" },
+  { "title": "Platypus", "sciName": "Ornithorhynchus anatinus", "countryOfOrigin": "Australia" },
+  { "title": "Jaguar", "sciName": "Panthera onca", "countryOfOrigin": "Mexico" },
+  { "title": "Ring-Tailed Lemur", "sciName": "Lemur catta", "countryOfOrigin": "Madagascar" },
+  { "title": "Gray Wolf", "sciName": "Canis lupus", "countryOfOrigin": "Russia" }
+]
+}
